@@ -71,6 +71,9 @@ def on_ui_tabs():
           png_output = gr.Button(value="Save PNG")
           send_output = gr.Button(value="Send to ControlNet")
           send_img2img = gr.Button(value="Send to Img2Img")
+          send_t2t = gr.Button(value="Send to txt2img")
+          send_i2i = gr.Button(value="Send to img2img")
+          select_target_index = gr.Dropdown([str(i) for i in range(10)], label="Send to", value="0", interactive=True)
 
     def estimate(img):
       global body_estimation
@@ -98,7 +101,9 @@ def on_ui_tabs():
     png_input.click(None, [], None, _js="detectImage")
     add.click(None, [], None, _js="addPose")
     png_input_area.change(estimate, [png_input_area], [jsonbox])
-    send_output.click(None, [], None, _js="sendImage")
+    send_t2t.click(None, [], None, _js="() => {sendImage('txt2img')}")
+    send_i2i.click(None, [], None, _js="() => {sendImage('img2img')}")
+    select_target_index.change(None, [select_target_index], None, _js="(i) => {updateTargetIndex(parseInt(i, 10))}")
     reset_btn.click(None, [], None, _js="resetCanvas")
     send_img2img.click(None, [], None, _js="sendImage2Image")
 
